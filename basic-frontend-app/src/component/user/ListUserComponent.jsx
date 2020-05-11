@@ -66,27 +66,20 @@ class ListUserComponent extends Component {
                 <NavBar/>
                 <Container>
                     <Typography variant="h4" style={style}>User Details</Typography>
-                    <Button variant="contained" color="primary" onClick={() => this.addUser()}>
-                        Add User
-                    </Button>
-
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Id</TableCell>
-                                <TableCell>FirstName</TableCell>
+                                <TableCell align="right">FirstName</TableCell>
                                 <TableCell align="right">LastName</TableCell>
                                 <TableCell align="right">UserName</TableCell>
                                 <TableCell align="right">Age</TableCell>
                                 <TableCell align="right">Salary</TableCell>
+                                <TableCell align="center" colSpan={2} >Actions</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {this.state.users.map(row => (
                                 <TableRow key={row.id}>
-                                    <TableCell component="th" scope="row">
-                                        {row.id}
-                                    </TableCell>
                                     <TableCell align="right">{row.firstName}</TableCell>
                                     <TableCell align="right">{row.lastName}</TableCell>
                                     <TableCell align="right">{row.username}</TableCell>
@@ -99,6 +92,10 @@ class ListUserComponent extends Component {
                             ))}
                         </TableBody>
                     </Table>
+                    <br/>
+                    <Button variant="contained" color="primary" onClick={() => this.addUser()}>
+                        Add User
+                    </Button>
                 </Container>
             </React.Fragment>
         );
