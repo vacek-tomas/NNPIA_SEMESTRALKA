@@ -4,37 +4,37 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Set;
 
-@Entity
-@Table(name = "faktura")
-public class Faktura {
+public class FakturaDto {
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+
     private int id;
 
-    @Column(length = 30, nullable = false)
     private String evidencniCislo;
 
-    @Column
     private Integer variabilniSymbol;
 
-    @Column(nullable = false)
     private LocalDate datumVystaveni;
 
-    @Column
     private LocalDate datumUzp;
 
-    @Column(nullable = false)
     private LocalDate datumSplatnosti;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    private Odberatel odberatel;
+    private String odberatelFirma;
 
-    @OneToMany(mappedBy="faktura", cascade = CascadeType.REMOVE)
-    private Set<PolozkaFaktury> polozkyFaktury;
+    private double cenaCelkem;
 
-    @Column(nullable = false)
-    private Double cenaCelkem;
+    public FakturaDto(int id, String evidencniCislo, Integer variabilniSymbol, LocalDate datumVystaveni, LocalDate datumUzp, LocalDate datumSplatnosti, String odberatelFirma, double cenaCelkem) {
+        this.id = id;
+        this.evidencniCislo = evidencniCislo;
+        this.variabilniSymbol = variabilniSymbol;
+        this.datumVystaveni = datumVystaveni;
+        this.datumUzp = datumUzp;
+        this.datumSplatnosti = datumSplatnosti;
+        this.odberatelFirma = odberatelFirma;
+        this.cenaCelkem = cenaCelkem;
+    }
+
+    public  FakturaDto(){}
 
     public double getCenaCelkem() {
         return cenaCelkem;
@@ -42,22 +42,6 @@ public class Faktura {
 
     public void setCenaCelkem(double cenaCelkem) {
         this.cenaCelkem = cenaCelkem;
-    }
-
-    public Set<PolozkaFaktury> getPolozkyFaktury() {
-        return polozkyFaktury;
-    }
-
-    public void setPolozkyFaktury(Set<PolozkaFaktury> polozkyFaktury) {
-        this.polozkyFaktury = polozkyFaktury;
-    }
-
-    public Odberatel getOdberatel() {
-        return odberatel;
-    }
-
-    public void setOdberatel(Odberatel odberatel) {
-        this.odberatel = odberatel;
     }
 
     public LocalDate getDatumSplatnosti() {
@@ -106,5 +90,13 @@ public class Faktura {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getOdberatelFirma() {
+        return odberatelFirma;
+    }
+
+    public void setOdberatelFirma(String odberatelFirma) {
+        this.odberatelFirma = odberatelFirma;
     }
 }

@@ -1,64 +1,30 @@
 package e.the.awesome.springreactcomboapp.model.faktury;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
-@Entity
-@Table(name = "faktura")
-public class Faktura {
+public class FakturaIM {
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-    @Column(length = 30, nullable = false)
     private String evidencniCislo;
 
-    @Column
     private Integer variabilniSymbol;
 
-    @Column(nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate datumVystaveni;
 
-    @Column
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate datumUzp;
 
-    @Column(nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate datumSplatnosti;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    private Odberatel odberatel;
+    private int odberatelId;
 
-    @OneToMany(mappedBy="faktura", cascade = CascadeType.REMOVE)
-    private Set<PolozkaFaktury> polozkyFaktury;
-
-    @Column(nullable = false)
-    private Double cenaCelkem;
-
-    public double getCenaCelkem() {
-        return cenaCelkem;
-    }
-
-    public void setCenaCelkem(double cenaCelkem) {
-        this.cenaCelkem = cenaCelkem;
-    }
-
-    public Set<PolozkaFaktury> getPolozkyFaktury() {
-        return polozkyFaktury;
-    }
-
-    public void setPolozkyFaktury(Set<PolozkaFaktury> polozkyFaktury) {
-        this.polozkyFaktury = polozkyFaktury;
-    }
-
-    public Odberatel getOdberatel() {
-        return odberatel;
-    }
-
-    public void setOdberatel(Odberatel odberatel) {
-        this.odberatel = odberatel;
-    }
+    private List<PolozkaFakturyDto> polozkyFaktury;
 
     public LocalDate getDatumSplatnosti() {
         return datumSplatnosti;
@@ -106,5 +72,21 @@ public class Faktura {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getOdberatelId() {
+        return odberatelId;
+    }
+
+    public void setOdberatelId(int odberatelId) {
+        this.odberatelId = odberatelId;
+    }
+
+    public List<PolozkaFakturyDto> getPolozkyFaktury() {
+        return polozkyFaktury;
+    }
+
+    public void setPolozkyFaktury(List<PolozkaFakturyDto> polozkyFaktury) {
+        this.polozkyFaktury = polozkyFaktury;
     }
 }
