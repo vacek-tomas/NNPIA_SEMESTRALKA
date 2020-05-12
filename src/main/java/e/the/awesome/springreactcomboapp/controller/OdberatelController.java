@@ -28,17 +28,22 @@ public class OdberatelController {
                                                   @RequestParam(defaultValue = "10") int pageSize,
                                                   @RequestParam(defaultValue = "id") String sortBy,
                                                   @RequestParam(defaultValue = "true") boolean sortAsc){
-        return new ApiResponse<>(HttpStatus.OK.value(), "Invoice list fetched successfully.",odberatelService.findAll(pageNo, pageSize, sortBy, sortAsc));
+        return new ApiResponse<>(HttpStatus.OK.value(), "Subscriber list fetched successfully.",odberatelService.findAll(pageNo, pageSize, sortBy, sortAsc));
     }
 
     @GetMapping("/{id}")
     public ApiResponse<FakturaIM> getById(@PathVariable int id){
-        return new ApiResponse<>(HttpStatus.OK.value(), "User fetched successfully.",odberatelService.findById(id));
+        return new ApiResponse<>(HttpStatus.OK.value(), "Subscriber fetched successfully.",odberatelService.findById(id));
+    }
+
+    @GetMapping("/startsWith")
+    public ApiResponse<FakturaIM> getById(@RequestParam String firma){
+        return new ApiResponse<>(HttpStatus.OK.value(), "Subscriber fetched successfully.",odberatelService.findByFirmaStartsWith(firma));
     }
 
     @PostMapping
     public ApiResponse<FakturaDto> save(@RequestBody OdberatelIM odberatelIM){
-        return new ApiResponse<>(HttpStatus.OK.value(), "Invoice saved successfully.",odberatelService.save(odberatelIM));
+        return new ApiResponse<>(HttpStatus.OK.value(), "Subscriber saved successfully.",odberatelService.save(odberatelIM));
     }
 
     @DeleteMapping("/{id}")
@@ -49,11 +54,11 @@ public class OdberatelController {
         catch (Exception e){
             return new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), e.getMessage(), null);
         }
-        return new ApiResponse<>(HttpStatus.OK.value(), "Invoice deleted successfully.", null);
+        return new ApiResponse<>(HttpStatus.OK.value(), "Subscriber deleted successfully.", null);
     }
 
     @PutMapping("/{id}")
     public ApiResponse<UserDto> update(@PathVariable int id, @RequestBody OdberatelIM odberatelIM) {
-        return new ApiResponse<>(HttpStatus.OK.value(), "Invoice updated successfully.",odberatelService.update(id, odberatelIM));
+        return new ApiResponse<>(HttpStatus.OK.value(), "Subscriber updated successfully.",odberatelService.update(id, odberatelIM));
     }
 }

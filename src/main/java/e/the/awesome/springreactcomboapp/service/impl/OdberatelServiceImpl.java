@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -57,10 +58,10 @@ public class OdberatelServiceImpl implements OdberatelService {
     public void delete(int id) throws SQLException, NullPointerException {
         Optional<Odberatel> optionalOdberatel = odberatelRepository.findById(id);
         if(!optionalOdberatel.isPresent()){
-            throw  new NullPointerException("Odberatel not exists");
+            throw  new NullPointerException("Subscriber not exists");
         }
         if(fakturaRepository.findByOdberatel_Id(id).size() != 0){
-            throw new SQLException("Odberatel has invoices");
+            throw new SQLException("Subscriber has invoices");
         }
         odberatelRepository.delete(optionalOdberatel.get());
     }
@@ -69,7 +70,7 @@ public class OdberatelServiceImpl implements OdberatelService {
     public OdberatelIM findById(int id) throws NullPointerException {
         Optional<Odberatel> optionalOdberatel = odberatelRepository.findById(id);
         if(!optionalOdberatel.isPresent()){
-            throw new NullPointerException("Odberatel not exist.");
+            throw new NullPointerException("Subscriber not exist.");
         }
 
         OdberatelIM odberatelIM = new OdberatelIM();
@@ -90,5 +91,10 @@ public class OdberatelServiceImpl implements OdberatelService {
         else{
             return new OdberatelPagingDto();
         }
+    }
+
+    @Override
+    public List<OdberatelVM> findByFirmaStartsWith(String firma) {
+        return odberatelRepository.findByFirmaStartsWithIgnoreCase(firma).stream().map(i -> new OdberatelVM(i.getId(), i.getFirma() + " " + i.getMesto())).collect(Collectors.toList());
     }
 }
