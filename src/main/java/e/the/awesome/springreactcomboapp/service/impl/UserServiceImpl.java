@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 
 @Service(value = "userService")
 public class UserServiceImpl implements UserDetailsService, UserService {
-	
+
 	private final UserRepository userRepository;
 
 	private final BCryptPasswordEncoder bcryptEncoder;
@@ -69,6 +69,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         User user = findById(userDto.getId());
         if(user != null) {
             BeanUtils.copyProperties(userDto, user, "password", "username");
+            user.setSalary(userDto.getSalary());
             userRepository.save(user);
         }
         return userDto;

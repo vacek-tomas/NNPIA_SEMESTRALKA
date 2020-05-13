@@ -13,7 +13,7 @@ import Container from '@material-ui/core/Container';
 import NavBar from "../Navbar";
 import {Helmet} from "react-helmet";
 
-class ListUserComponent extends Component {
+class ListFakturaComponent extends Component {
 
     constructor(props) {
         super(props)
@@ -48,7 +48,8 @@ class ListUserComponent extends Component {
     }
 
     editUser(id) {
-        this.props.history.push('/edit-user/'+id);
+        window.localStorage.setItem("userId", id);
+        this.props.history.push('/edit-user');
     }
 
     addUser() {
@@ -60,38 +61,40 @@ class ListUserComponent extends Component {
         return (
             <React.Fragment>
                 <Helmet>
-                    <title>Seznam uživatelů</title>
+                    <title>List user</title>
                 </Helmet>
                 <NavBar/>
                 <Container>
-                    <Typography variant="h4" style={style}>Seznam uživatelů</Typography>
+                    <Typography variant="h4" style={style}>User Details</Typography>
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell align="left">Jméno</TableCell>
-                                <TableCell align="left">Přijmení</TableCell>
-                                <TableCell align="left">Login</TableCell>
-                                <TableCell align="left">Věk</TableCell>
-                                <TableCell align="left">Plat</TableCell>
-                                <TableCell align="left">Akce</TableCell>
+                                <TableCell align="right">FirstName</TableCell>
+                                <TableCell align="right">LastName</TableCell>
+                                <TableCell align="right">UserName</TableCell>
+                                <TableCell align="right">Age</TableCell>
+                                <TableCell align="right">Salary</TableCell>
+                                <TableCell align="center" colSpan={2} >Actions</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {this.state.users.map(row => (
                                 <TableRow key={row.id}>
-                                    <TableCell align="left">{row.firstName}</TableCell>
-                                    <TableCell align="left">{row.lastName}</TableCell>
-                                    <TableCell align="left">{row.username}</TableCell>
-                                    <TableCell align="left">{row.age}</TableCell>
-                                    <TableCell align="left">{row.salary}</TableCell>
-                                    <TableCell align="left"><CreateIcon cursor='pointer' onClick={() => this.editUser(row.id)} />&nbsp;<DeleteIcon cursor='pointer' onClick={() => this.deleteUser(row.id)}/></TableCell>
+                                    <TableCell align="right">{row.firstName}</TableCell>
+                                    <TableCell align="right">{row.lastName}</TableCell>
+                                    <TableCell align="right">{row.username}</TableCell>
+                                    <TableCell align="right">{row.age}</TableCell>
+                                    <TableCell align="right">{row.salary}</TableCell>
+                                    <TableCell align="right" onClick={() => this.editUser(row.id)}><CreateIcon /></TableCell>
+                                    <TableCell align="right" onClick={() => this.deleteUser(row.id)}><DeleteIcon /></TableCell>
+
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                     <br/>
                     <Button variant="contained" color="primary" onClick={() => this.addUser()}>
-                        Nový uživatel
+                        Nová faktura
                     </Button>
                 </Container>
             </React.Fragment>
@@ -105,4 +108,4 @@ const style ={
     justifyContent: 'center'
 }
 
-export default ListUserComponent;
+export default ListFakturaComponent;

@@ -28,7 +28,7 @@ class EditUserComponent extends Component {
     }
 
     loadUser() {
-        UserService.fetchUserById(window.localStorage.getItem("userId"))
+        UserService.fetchUserById(this.props.match.params.id)
             .then((res) => {
                 let user = res.data.result;
                 this.setState({
@@ -59,24 +59,24 @@ class EditUserComponent extends Component {
         return (
             <React.Fragment>
                 <Helmet>
-                    <title>Edit user | UPCE</title>
+                    <title>Úprava uživatele</title>
                 </Helmet>
                 <NavBar/>
                 <Container>
-                    <Typography variant="h4" style={style}>Edit User</Typography>
+                    <Typography variant="h4" style={style}>Úprava uživatele</Typography>
                     <form>
 
-                        <TextField label="USERNAME" fullWidth margin="normal" name="username" value={this.state.username} disabled/>
+                        <TextField label="LOGIN" fullWidth margin="normal" name="username" value={this.state.username} disabled/>
 
-                        <TextField label="FIRST NAME" fullWidth margin="normal" name="firstName" value={this.state.firstName} onChange={this.onChange}/>
+                        <TextField label="JMÉNO" fullWidth margin="normal" name="firstName" value={this.state.firstName} onChange={this.onChange}/>
 
-                        <TextField label="LAST NAME" fullWidth margin="normal" name="lastName" value={this.state.lastName} onChange={this.onChange}/>
+                        <TextField label="PŘIJMENÍ" fullWidth margin="normal" name="lastName" value={this.state.lastName} onChange={this.onChange}/>
 
-                        <TextField type="number" label="AGE" fullWidth margin="normal" name="age" value={this.state.age} onChange={this.onChange}/>
+                        <TextField type="number" label="VĚK" fullWidth margin="normal" name="age" value={this.state.age} onChange={this.onChange}/>
 
-                        <TextField type="number" label="SALARY" fullWidth margin="normal" name="salary" value={this.state.salary} onChange={this.onChange}/>
+                        <TextField type="number" label="PLAT" fullWidth margin="normal" name="salary" value={this.state.salary} onChange={this.onChange}/>
 
-                        <Button variant="contained" color="primary" onClick={this.saveUser}>Save</Button>
+                        <Button variant="contained" color="primary" onClick={this.saveUser}>Uložit změny</Button>
 
                     </form>
                 </Container>

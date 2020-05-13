@@ -37,7 +37,7 @@ public class OdberatelController {
     }
 
     @GetMapping("/startsWith")
-    public ApiResponse<FakturaIM> getById(@RequestParam String firma){
+    public ApiResponse<FakturaIM> getByFirma(@RequestParam String firma){
         return new ApiResponse<>(HttpStatus.OK.value(), "Subscriber fetched successfully.",odberatelService.findByFirmaStartsWith(firma));
     }
 

@@ -1,11 +1,11 @@
 import axios from 'axios';
-
-const USER_API_BASE_URL = 'http://localhost:8080/token/';
+import config from '../infrastucture/config';
+import {AuthenticationController_generateToken} from '../infrastucture/ApiRoutes';
 
 class AuthService {
 
     login(credentials){
-        return axios.post(USER_API_BASE_URL + "generate-token", credentials);
+        return axios.post(config.API_BASE_URL + AuthenticationController_generateToken, credentials);
     }
 
     getUserInfo(){
@@ -18,7 +18,6 @@ class AuthService {
 
     logOut() {
         localStorage.removeItem("userInfo");
-        return axios.post(USER_API_BASE_URL + 'logout', {}, this.getAuthHeader());
     }
 }
 

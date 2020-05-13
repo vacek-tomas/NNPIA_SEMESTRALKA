@@ -24,7 +24,7 @@ public class FakturaController {
     }
 
     @GetMapping
-    public ApiResponse<FakturaPagingDto> listUser(@RequestParam(defaultValue = "0") int pageNo,
+    public ApiResponse<FakturaPagingDto> listFaktura(@RequestParam(defaultValue = "0") int pageNo,
                                                   @RequestParam(defaultValue = "10") int pageSize,
                                                   @RequestParam(defaultValue = "id") String sortBy,
                                                   @RequestParam(defaultValue = "true") boolean sortAsc){
@@ -37,7 +37,7 @@ public class FakturaController {
     }
 
     @PostMapping
-    public ApiResponse<FakturaDto> saveUser(@RequestBody FakturaIM faktura){
+    public ApiResponse<FakturaDto> save(@RequestBody FakturaIM faktura){
         return new ApiResponse<>(HttpStatus.OK.value(), "Invoice saved successfully.",fakturaService.save(faktura));
     }
 

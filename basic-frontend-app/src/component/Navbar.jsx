@@ -22,6 +22,11 @@ const NavBar = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const logout = () => {
+        AuthService.logOut();
+        history.push('/login');
+    };
     return (
             <div>
                 <AppBar position="static">
@@ -46,7 +51,7 @@ const NavBar = () => {
 
 
                         <Button color="inherit">{AuthService.getUserInfo().username}</Button>
-                        <Button color="inherit" component={Link} to="/">Logout</Button>
+                        <Button color="inherit" onClick={logout}>Odhlásit se</Button>
                     </Toolbar>
                 </AppBar>
             </div>

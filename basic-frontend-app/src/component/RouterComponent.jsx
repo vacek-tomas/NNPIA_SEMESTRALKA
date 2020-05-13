@@ -4,15 +4,18 @@ import AddUserComponent from "./user/AddUserComponent";
 import EditUserComponent from "./user/EditUserComponent";
 import React from "react";
 import LoginComponent from "./user/LoginComponent";
+import {PrivateRoute} from "./infrastucture/PrivateRoute";
+import DashBoardComponent from "./DashBoard";
 
 const AppRouter = () => {
     return(
             <Router>
                     <Switch>
-                        <Route path="/" exact component={LoginComponent} />
-                        <Route path="/list-user" component={ListUserComponent} />
-                        <Route path="/add-user" component={AddUserComponent} />
-                        <Route path="/edit-user" component={EditUserComponent} />
+                        <PrivateRoute exact path="/" component={DashBoardComponent} />
+                        <Route path="/login"  component={LoginComponent} />
+                        <PrivateRoute path="/list-user" component={ListUserComponent} />
+                        <PrivateRoute path="/add-user" component={AddUserComponent} />
+                        <PrivateRoute path="/edit-user/:id" component={EditUserComponent} />
                     </Switch>
             </Router>
     )

@@ -17,11 +17,7 @@ class LoginComponent extends React.Component {
             password: '',
             message: '',
         }
-        this.login = this.login.bind(this);
-    }
 
-    componentDidMount() {
-        localStorage.clear();
     }
 
     login = (e) => {
@@ -30,7 +26,12 @@ class LoginComponent extends React.Component {
         AuthService.login(credentials).then(res => {
             if(res.data.status === 200){
                 localStorage.setItem("userInfo", JSON.stringify(res.data.result));
+                if(this.props.location.state !== undefined){
+                    this.props.history.push(this.props.location.state.from.pathname);
+                }
+                else{
                 this.props.history.push('/list-user');
+                }
             }else {
                 this.setState({message: res.data.message});
             }
@@ -44,24 +45,24 @@ class LoginComponent extends React.Component {
         return(
             <React.Fragment>
                 <Helmet>
-                    <title>Login | UPCE</title>
+                    <title>Přihlášení</title>
                 </Helmet>
                 <AppBar position="static">
                     <Toolbar>
                         <Typography variant="h6">
-                            React User Application
+                            Účetní aplikace
                         </Typography>
                     </Toolbar>
                 </AppBar>
                 <Container maxWidth="sm">
-                    <Typography variant="h4" style={styles.center}>Login</Typography>
+                    <Typography variant="h4" style={styles.center}>Přihlášení</Typography>
                     <form>
                         <Typography variant="h4" style={styles.notification}>{this.state.message}</Typography>
-                        <TextField type="text" label="USERNAME" fullWidth margin="normal" name="username" value={this.state.username} onChange={this.onChange}/>
+                        <TextField type="text" label="LOGIN" fullWidth margin="normal" name="username" value={this.state.username} onChange={this.onChange}/>
 
-                        <TextField type="password" label="PASSWORD" fullWidth margin="normal" name="password" value={this.state.password} onChange={this.onChange}/>
+                        <TextField type="password" label="HESLO" fullWidth margin="normal" name="password" value={this.state.password} onChange={this.onChange}/>
 
-                        <Button variant="contained" color="secondary" onClick={this.login}>Login</Button>
+                        <Button variant="contained" color="primary" onClick={this.login}>Přihlásit</Button>
                     </form>
                 </Container>
             </React.Fragment>
