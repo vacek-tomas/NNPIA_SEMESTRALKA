@@ -23,7 +23,7 @@ class FakturaServive {
     }
 
     editFaktura(id, faktura) {
-        return axios.put(config.API_BASE_URL + FakturaController_update(user.id), faktura, AuthService.getAuthHeader());
+        return axios.put(config.API_BASE_URL + FakturaController_update(id), faktura, AuthService.getAuthHeader());
     }
 
 }

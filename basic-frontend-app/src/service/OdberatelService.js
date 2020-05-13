@@ -22,7 +22,7 @@ class OdberatelService {
         return axios.delete(config.API_BASE_URL + OdberatelController_delete(id), AuthService.getAuthHeader());
     }
 
-    addOdberatel(faktura) {
+    addOdberatel(odberatel) {
         return axios.post(config.API_BASE_URL + OdberatelController_save, odberatel, AuthService.getAuthHeader());
     }
 
