@@ -4,7 +4,7 @@ import config from '../infrastucture/config';
 import {FakturaController_delete, FakturaController_getById, FakturaController_listFaktura, FakturaController_save, FakturaController_update} from '../infrastucture/ApiRoutes';
 
 
-class FakturaSerive {
+class FakturaServive {
 
     fetchFaktury(pageNo = 0, pageSize = 10, sortAsc = true, sortBy ="evidencniCislo") {
         return axios.get(config.API_BASE_URL + FakturaController_listFaktura(pageNo,pageSize, sortAsc, sortBy), AuthService.getAuthHeader());
@@ -28,4 +28,4 @@ class FakturaSerive {
 
 }
 
-export default new FakturaSerive();
+export default new FakturaServive();
