@@ -42,8 +42,8 @@ const NavBar = () => {
                                 open={Boolean(anchorEl)}
                                 onClose={handleClose}
                             >
-                                <MenuItem onClick={() => {history.push('/add-user')}}>DashBoard</MenuItem>
-                                <MenuItem onClick={() => {history.push('/list-user')}}>Faktury</MenuItem>
+                                <MenuItem onClick={() => {history.push('/')}}>DashBoard</MenuItem>
+                                <MenuItem onClick={() => {history.push('/list-invoice')}}>Faktury</MenuItem>
                                 <MenuItem onClick={() => {history.push('/add-user')}}>Odběratelé</MenuItem>
                                 <MenuItem onClick={() => {history.push('/list-user')}}>Uživatelé</MenuItem>
                             </Menu>
