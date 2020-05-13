@@ -12,6 +12,8 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import NavBar from "../Navbar";
 import {Helmet} from "react-helmet";
+import {toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 class ListUserComponent extends Component {
 
@@ -42,7 +44,7 @@ class ListUserComponent extends Component {
     deleteUser(userId) {
         UserService.deleteUser(userId)
            .then(res => {
-               this.setState({message : 'User deleted successfully.'});
+               toast(res.data.message);
                this.setState({users: this.state.users.filter(user => user.id !== userId)});
            })
     }
@@ -59,6 +61,7 @@ class ListUserComponent extends Component {
     render() {
         return (
             <React.Fragment>
+                <ToastContainer/>
                 <Helmet>
                     <title>Seznam uživatelů</title>
                 </Helmet>

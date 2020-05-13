@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import NavBar from "../Navbar";
 import {Helmet} from "react-helmet";
+import {toast, Toast} from "react-toastify";
 
 class AddUserComponent extends Component{
 
@@ -28,7 +29,7 @@ class AddUserComponent extends Component{
         let user = {username: this.state.username, password: this.state.password, firstName: this.state.firstName, lastName: this.state.lastName, age: this.state.age, salary: this.state.salary};
         UserService.addUser(user)
             .then(res => {
-                this.setState({message : 'User added successfully.'});
+                toast(res.data.message);
                 this.props.history.push('/list-user');
             });
     }
