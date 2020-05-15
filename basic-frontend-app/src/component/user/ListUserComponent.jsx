@@ -55,7 +55,6 @@ class ListUserComponent extends Component {
     }
 
     addUser() {
-        window.localStorage.removeItem("userId");
         this.props.history.push('/add-user');
     }
 

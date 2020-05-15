@@ -8,6 +8,7 @@ import {PrivateRoute} from "./infrastucture/PrivateRoute";
 import DashBoardComponent from "./DashBoard";
 import ListFakturaComponent from "./faktura/ListFakturaComponent";
 import ListOdberatelComponent from "./odberatele/ListOdberatelComponent";
+import AddOdberatelComponent from "./odberatele/AddOdberatelComponent";
 
 const AppRouter = () => {
     return(
@@ -16,10 +17,12 @@ const AppRouter = () => {
                         <PrivateRoute exact path="/" component={DashBoardComponent} />
                         <Route path="/login"  component={LoginComponent} />
                         <PrivateRoute path="/list-user" component={ListUserComponent} />
-                        <PrivateRoute path="/list-invoice" component={ListFakturaComponent} />
-                        <PrivateRoute path="/list-subscriber" component={ListOdberatelComponent} />
                         <PrivateRoute path="/add-user" component={AddUserComponent} />
                         <PrivateRoute path="/edit-user/:id" component={EditUserComponent} />
+                        <PrivateRoute path="/list-invoice" component={ListFakturaComponent} />
+                        <PrivateRoute path="/list-subscriber" component={ListOdberatelComponent} />
+                        <PrivateRoute path="/add-subscriber" component={AddOdberatelComponent} />
+
                     </Switch>
             </Router>
     )

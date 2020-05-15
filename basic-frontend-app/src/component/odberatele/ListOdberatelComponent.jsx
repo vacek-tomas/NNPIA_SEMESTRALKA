@@ -29,7 +29,7 @@ class ListOdberatelComponent extends Component {
             },
             isLoading: true,
             pageNo: 0,
-            pageSize: 1,
+            pageSize: 5,
             sortAsc: true,
             sortBy: 'id',
         }
@@ -65,6 +65,10 @@ class ListOdberatelComponent extends Component {
 
     editOdberatel = (id) => {
 
+    }
+
+    addOdberatel = () => {
+        this.props.history.push('/add-subscriber');
     }
 
     changePage = (event, value) => {
@@ -152,9 +156,9 @@ class ListOdberatelComponent extends Component {
                             ))}
                         </TableBody>
                         </Table>
-                        <Pagination style={paginationStyle} count={this.state.odberatelePaging.totalCount % this.state.pageSize == 0 ? this.state.odberatelePaging.totalCount / this.state.pageSize : (this.state.odberatelePaging.totalCount / this.state.pageSize) + 1} page={this.state.pageNo + 1} onChange={this.changePage} />
+                        <Pagination style={paginationStyle} count={Math.ceil(this.state.odberatelePaging.totalCount / this.state.pageSize)} page={this.state.pageNo + 1} onChange={this.changePage} />
                         <br/>
-                        <Button variant="contained" color="primary" onClick={() => this.addUser()}>
+                        <Button variant="contained" color="primary" onClick={this.addOdberatel}>
                         Nový Odběratel
                         </Button>
                     </React.Fragment>
