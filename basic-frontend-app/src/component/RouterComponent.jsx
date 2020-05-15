@@ -7,7 +7,7 @@ import LoginComponent from "./user/LoginComponent";
 import {PrivateRoute} from "./infrastucture/PrivateRoute";
 import DashBoardComponent from "./DashBoard";
 import ListFakturaComponent from "./faktura/ListFakturaComponent";
-import ListOdberatelComponent from "./Odberatele/ListOdberatelComponent";
+import ListOdberatelComponent from "./odberatele/ListOdberatelComponent";
 
 const AppRouter = () => {
     return(
