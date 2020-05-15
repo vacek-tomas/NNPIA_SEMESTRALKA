@@ -7,7 +7,7 @@ export const FakturaController_delete = (id) => `/invoices/${id}`
 export const FakturaController_update = (id) => `/invoices/${id}`
 export const OdberatelController_listOdberatel = (pageNo, pageSize, sortAsc, sortBy) => `/subscribers?pageNo=${pageNo}&pageSize=${pageSize}&sortAsc=${sortAsc}&sortBy=${sortBy}`
 export const OdberatelController_getById = (id) => `/subscribers/${id}`
-export const OdberatelController_getByFirma = (firma) => `/subscribers/startsWith/${firma}`
+export const OdberatelController_getByFirma = (firma) => `/subscribers/startsWith/%7Bfirma%7D?firma=${firma}`
 export const OdberatelController_save =  `/subscribers`
 export const OdberatelController_delete = (id) => `/subscribers/${id}`
 export const OdberatelController_update = (id) => `/subscribers/${id}`

@@ -30,7 +30,7 @@ class ListFakturaComponent extends Component {
             },
             isLoading: true,
             pageNo: 0,
-            pageSize: 1,
+            pageSize: 5,
             sortAsc: true,
             sortBy: 'id',
         }
@@ -69,8 +69,8 @@ class ListFakturaComponent extends Component {
         this.props.history.push('/edit-subscriber/' + id);
     }
 
-    addOdberatel = () => {
-        this.props.history.push('/add-subscriber');
+    addFaktura = () => {
+        this.props.history.push('/add-invoice');
     }
 
     changePage = (event, value) => {
@@ -155,7 +155,7 @@ class ListFakturaComponent extends Component {
                                         <TableCell align="left">{GetTime(row.datumVystaveni)}</TableCell>
                                         <TableCell align="left">{GetTime(row.datumSplatnosti)}</TableCell>
                                         <TableCell align="left">{GetTime(row.datumUzp)}</TableCell>
-                                        <TableCell align="left">{row.cenaCelkem}</TableCell>
+                                        <TableCell align="left">{row.cenaCelkem.toFixed(2)} Kč</TableCell>
                                         <TableCell align="left"><CreateIcon cursor='pointer' onClick={() => this.editOdberatel(row.id)} />&nbsp;<DeleteIcon cursor='pointer' onClick={() => this.deleteOdberatel(row.id)}/></TableCell>
                                     </TableRow>
                                 ))}
@@ -163,7 +163,7 @@ class ListFakturaComponent extends Component {
                         </Table>
                         <Pagination style={paginationStyle} count={Math.ceil(this.state.fakturyPaging.totalCount / this.state.pageSize)} page={this.state.pageNo + 1} onChange={this.changePage} />
                         <br/>
-                        <Button variant="contained" color="primary" onClick={this.addOdberatel}>
+                        <Button variant="contained" color="primary" onClick={this.addFaktura}>
                             Nová Faktura
                         </Button>
                     </React.Fragment>

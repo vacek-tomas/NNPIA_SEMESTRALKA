@@ -3,5 +3,10 @@ import 'moment/locale/cs';
 
 export function GetTime (time)
 {
-    return moment(time).format('DD. MMMM YYYY')
+    return moment(time).format('DD. MMMM YYYY');
+};
+
+export function SetTime (time)
+{
+    return moment(time).format('yyyy-MM-DD');
 };
