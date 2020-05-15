@@ -12,6 +12,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import DeleteIcon from "@material-ui/icons/Delete";
 import {SetTime} from "../../service/TimeService";
+import {PolozkaFakturyComponent} from "./PolozkaFakturyComponent";
 
 class AddFakturaComponent extends Component{
 
@@ -131,26 +132,7 @@ class AddFakturaComponent extends Component{
 
                         <TextField label="DATUM SPLATNOSTI" type="date" fullWidth margin="normal" name="datumSplatnosti" value={this.state.datumSplatnosti} onChange={this.onChange} InputLabelProps={{shrink: true}}/>
                         {this.state.polozkyFaktury.map((row, index) => (
-                            <Grid key={"item"+index} container spacing={2}>
-                                <Grid container item sm={2} >
-                                    <TextField label="POPIS" type="text" fullWidth margin="normal" name="popis" value={row.popis} onChange={e => this.onChangeItem(e, index)}/>
-                                </Grid>
-                                <Grid container item sm={3} >
-                                    <TextField label="CENA ZA JEDNOTKU" type="number" fullWidth margin="normal" name="cenaZaJednotku" value={row.cenaZaJednotku} onChange={e => this.onChangeItem(e, index)}/>
-                                </Grid>
-                                <Grid container item sm={2}>
-                                    <TextField label="JEDNOTKA" type="text" fullWidth margin="normal" name="jednotka" value={row.jednotka} onChange={e => this.onChangeItem(e, index)}/>
-                                </Grid>
-                                <Grid container item sm={2}>
-                                    <TextField label="MNOŽSTVÍ" type="number" fullWidth margin="normal" name="mnozstvi" value={row.mnozstvi} onChange={e => this.onChangeItem(e, index)}/>
-                                </Grid>
-                                <Grid container item sm={2}>
-                                    <TextField ref={"cenaCelkem"+row} label="CENA CELKEM" type="number" fullWidth margin="normal" name="cenaCelkem" value={row.cenaCelkem} onChange={e => this.onChangeItem(e, index)}/>
-                                </Grid>
-                                <Grid container item sm={1} alignContent={"flex-end"} >
-                                    <DeleteIcon style={deleteButtonStyle} cursor='pointer' onClick={() => this.deleteRow(index)}/>
-                                </Grid>
-                            </Grid>
+                            <PolozkaFakturyComponent key={"item-"+index} item={row} index={index} onChangeItem = {this.onChangeItem} deleteRow = {this.deleteRow}/>
                         ))}
                         <Button variant="contained" color="secondary" onClick={this.addRow} >Přidat řádek</Button>&nbsp;
                         <Button variant="contained" color="primary" onClick={this.saveFaktura}>Vytvořit</Button>
@@ -170,8 +152,6 @@ const style ={
     justifyContent: 'center'
 
 }
-const deleteButtonStyle = {
-    marginBottom: '5px'
-}
+
 
 export default AddFakturaComponent;
