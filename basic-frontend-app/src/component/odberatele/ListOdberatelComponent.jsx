@@ -37,10 +37,10 @@ class ListOdberatelComponent extends Component {
 
     componentDidMount() {
         const {pageNo, pageSize, sortAsc, sortBy} = this.state
-        this.fetchFakturaList(pageNo, pageSize, sortAsc, sortBy);
+        this.fetchOdberatelList(pageNo, pageSize, sortAsc, sortBy);
     }
 
-    fetchFakturaList = (pageNo, pageSize, sortAsc, sortBy) => {
+    fetchOdberatelList = (pageNo, pageSize, sortAsc, sortBy) => {
         OdberatelService.fetchOdberatele(pageNo, pageSize, sortAsc, sortBy)
             .then((res) => {
                 this.setState({odberatelePaging: res.data.result, isLoading: false})
@@ -56,6 +56,7 @@ class ListOdberatelComponent extends Component {
                     odberatelePaging:
                         {
                             ...prevState.odberatelePaging,
+                            totalCount: prevState.odberatelePaging.totalCount - 1,
                             odberatele: this.state.odberatelePaging.odberatele.filter(odberatel => odberatel.id !== id)
                         }
                     })
@@ -74,18 +75,18 @@ class ListOdberatelComponent extends Component {
     changePage = (event, value) => {
         const {pageSize, sortAsc, sortBy} = this.state
         this.setState({pageNo: value - 1});
-        this.fetchFakturaList(value - 1, pageSize, sortAsc, sortBy);
+        this.fetchOdberatelList(value - 1, pageSize, sortAsc, sortBy);
     }
 
     changeSortBy = (event) => {
         const {pageNo, pageSize, sortAsc} = this.state
         this.setState({sortBy: event.target.value});
-        this.fetchFakturaList(pageNo, pageSize, sortAsc, event.target.value);
+        this.fetchOdberatelList(pageNo, pageSize, sortAsc, event.target.value);
     }
     changeSortAsc = (event) => {
         const {pageNo, pageSize, sortBy} = this.state
         this.setState({sortAsc: event.target.value});
-        this.fetchFakturaList(pageNo, pageSize, event.target.value, sortBy);
+        this.fetchOdberatelList(pageNo, pageSize, event.target.value, sortBy);
     }
 
     render() {
