@@ -64,7 +64,7 @@ class ListOdberatelComponent extends Component {
     }
 
     editOdberatel = (id) => {
-
+        this.props.history.push('/edit-subscriber/' + id);
     }
 
     addOdberatel = () => {

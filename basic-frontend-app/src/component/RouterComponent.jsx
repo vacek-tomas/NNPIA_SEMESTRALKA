@@ -9,6 +9,7 @@ import DashBoardComponent from "./DashBoard";
 import ListFakturaComponent from "./faktura/ListFakturaComponent";
 import ListOdberatelComponent from "./odberatele/ListOdberatelComponent";
 import AddOdberatelComponent from "./odberatele/AddOdberatelComponent";
+import EditOdberatelComponent from "./odberatele/EditOdberatelComponent";
 
 const AppRouter = () => {
     return(
@@ -22,7 +23,7 @@ const AppRouter = () => {
                         <PrivateRoute path="/list-invoice" component={ListFakturaComponent} />
                         <PrivateRoute path="/list-subscriber" component={ListOdberatelComponent} />
                         <PrivateRoute path="/add-subscriber" component={AddOdberatelComponent} />
-
+                        <PrivateRoute path="/edit-subscriber/:id" component={EditOdberatelComponent} />
                     </Switch>
             </Router>
     )
