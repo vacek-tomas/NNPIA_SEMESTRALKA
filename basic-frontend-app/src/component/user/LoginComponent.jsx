@@ -30,7 +30,7 @@ class LoginComponent extends React.Component {
                     this.props.history.push(this.props.location.state.from.pathname);
                 }
                 else{
-                this.props.history.push('/list-user');
+                this.props.history.push('/');
                 }
             }else {
                 this.setState({message: res.data.message});

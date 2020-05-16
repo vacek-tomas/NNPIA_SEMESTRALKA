@@ -16,7 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service(value = "fakturaService")
@@ -101,6 +102,23 @@ public class FakturaServiceImpl implements FakturaService {
         else{
             return null;
         }
+    }
+
+    @Override
+    public List<FakturaMonthInfo> findByYear(int year) {
+
+
+        List<Faktura> faktury = fakturaRepository.findByDatumUzpBetween(LocalDate.of(year,1,1), LocalDate.of(year,12,31));
+        Collections.sort(faktury, (o1, o2) -> o1.getDatumUzp().compareTo(o2.getDatumUzp()));
+        List<FakturaMonthInfo> list = new ArrayList<>();
+        for (int i = 1; i <= 12; i++)
+        {
+            LocalDate start = LocalDate.of(year, i, 1);
+            LocalDate end = i != 12 ? LocalDate.of(year, i + 1, 1) : LocalDate.of(year + 1, 1, 1);
+            list.add(new FakturaMonthInfo(i, faktury.stream().filter(f -> f.getDatumUzp().compareTo(start) >= 0 && f.getDatumUzp().compareTo(end) < 0).mapToDouble(f -> f.getCenaCelkem()).sum()));
+        }
+
+        return list;
     }
 
     @Override

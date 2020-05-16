@@ -33,7 +33,12 @@ public class FakturaController {
 
     @GetMapping("/{id}")
     public ApiResponse<FakturaIM> getById(@PathVariable int id){
-        return new ApiResponse<>(HttpStatus.OK.value(), "User fetched successfully.",fakturaService.findById(id));
+        return new ApiResponse<>(HttpStatus.OK.value(), "Invoice fetched successfully.",fakturaService.findById(id));
+    }
+
+    @GetMapping("/between/{year}")
+    public ApiResponse<FakturaIM> getByYear(@PathVariable int year){
+        return new ApiResponse<>(HttpStatus.OK.value(), "Invoice info fetched successfully.",fakturaService.findByYear(year));
     }
 
     @PostMapping
