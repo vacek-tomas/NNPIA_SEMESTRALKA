@@ -13,8 +13,9 @@ import Grid from '@material-ui/core/Grid';
 import DeleteIcon from "@material-ui/icons/Delete";
 import {SetTime} from "../../service/TimeService";
 import {PolozkaFakturyComponent} from "./PolozkaFakturyComponent";
+import Loader from "react-loader-spinner";
 
-class AddFakturaComponent extends Component{
+class EditFakturaComponent extends Component{
 
     constructor(props){
         super(props);
@@ -35,20 +36,30 @@ class AddFakturaComponent extends Component{
 
             }],
             odberatele: [],
+            defaultOdberatel: {
+                firma: '',
+                id: undefined
+            },
+            isLoading: true
         }
     }
 
     componentDidMount() {
+        FakturaService.fetchFakturaById(this.props.match.params.id)
+            .then(res => {this.setState({...res.data.result})})
+            .then(() => {OdberatelService.fetchOdberatelById(this.state.odberatelId)
+                .then(res => this.setState({defaultOdberatel: {firma: res.data.result.firma + " " + res.data.result.mesto, id: this.state.odberatelId}, isLoading: false}))});
+
     }
 
-    saveFaktura = (e) => {
+    editFaktura = (e) => {
         e.preventDefault();
 
         let faktura = {...this.state};
         faktura.datumSplatnosti = SetTime(faktura.datumSplatnosti);
         faktura.datumUzp = SetTime(faktura.datumUzp);
         faktura.datumVystaveni = SetTime(faktura.datumVystaveni);
-        FakturaService.addFaktura(faktura)
+        FakturaService.editFaktura(this.props.match.params.id,faktura)
             .then(res => {
                 toast(res.data.message);
                 this.props.history.push('/list-invoice');
@@ -106,27 +117,28 @@ class AddFakturaComponent extends Component{
                 </Helmet>
                 <NavBar/>
                 <Container>
-                    <Typography variant="h4" style={style}>Nová faktura</Typography>
-                    <form style={formContainer}>
+                    <Typography variant="h4" style={style}>Úprava faktury</Typography>
+                    <Loader style={style} type="Grid" color="blue" visible={this.state.isLoading}/>
+                    {!this.state.isLoading && <form style={formContainer}>
 
                         <TextField label="EVIDENČNÍ ČÍSLO" type="text" fullWidth margin="normal" name="evidencniCislo" value={this.state.evidencniCislo} onChange={this.onChange}/>
 
                         <TextField label="VARIABILNÍ SYMBOL" type="text" fullWidth margin="normal" name="variabilniSymbol" value={this.state.variabilniSymbol} onChange={this.onChange}/>
 
-                        <Autocomplete fullWidth margin="normal"
-                                      size="medium"
+                        <Autocomplete fullWidth margin="normal" size="medium"
                             options={this.state.odberatele}
+                            defaultValue={this.state.defaultOdberatel}
                             getOptionLabel={(option) => option.firma}
-                                      onChange={(event, reason) => {this.onSelectAutocomplete(reason.id)}}
-                              onInputChange={(event, newInputValue) => {
-                                  this.onInputChangeAutocomplete(newInputValue);
-                              }}
+                            onChange={(event, reason) => {if(reason !== null)this.onSelectAutocomplete(reason.id)}}
+                            onInputChange={(event, newInputValue) => {
+                              this.onInputChangeAutocomplete(newInputValue);
+                            }}
                             renderInput={(params) => (
                                 <TextField {...params} variant="standard" label="ODBĚRATEL" placeholder="Odběratel" InputLabelProps={{shrink: true}} />
                             )}
                         />
 
-                        <TextField label="DATUM VYSTAVENÍ" type="date" fullWidth margin="normal" name="datumVystaveni" value={this.state.datumVystaveni}  onChange={this.onChange} InputLabelProps={{shrink: true}}/>
+                        <TextField label="DATUM VYSTAVENÍ" type="date" fullWidth margin="normal" name="datumVystaveni" value={this.state.datumVystaveni} onChange={this.onChange} InputLabelProps={{shrink: true}}/>
 
                         <TextField label="DATUM UZP" type="date" fullWidth margin="normal" name="datumUzp" value={this.state.datumUzp} onChange={this.onChange} InputLabelProps={{shrink: true}}/>
 
@@ -135,8 +147,9 @@ class AddFakturaComponent extends Component{
                             <PolozkaFakturyComponent key={"item-"+index} item={row} index={index} onChangeItem = {this.onChangeItem} deleteRow = {this.deleteRow}/>
                         ))}
                         <Button variant="contained" color="secondary" onClick={this.addRow} >Přidat řádek</Button>&nbsp;
-                        <Button variant="contained" color="primary" onClick={this.saveFaktura}>Vytvořit</Button>
+                        <Button variant="contained" color="primary" onClick={this.editFaktura}>Uložit změny</Button>
                     </form>
+                    }
                 </Container>
             </Fragment>
         );
@@ -154,4 +167,4 @@ const style ={
 }
 
 
-export default AddFakturaComponent;
+export default EditFakturaComponent;

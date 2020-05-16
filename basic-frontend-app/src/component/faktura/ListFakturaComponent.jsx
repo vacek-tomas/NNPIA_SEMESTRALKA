@@ -65,8 +65,8 @@ class ListFakturaComponent extends Component {
             })
     }
 
-    editOdberatel = (id) => {
-        this.props.history.push('/edit-subscriber/' + id);
+    editFaktura = (id) => {
+        this.props.history.push('/edit-invoice/' + id);
     }
 
     addFaktura = () => {
@@ -156,7 +156,7 @@ class ListFakturaComponent extends Component {
                                         <TableCell align="left">{GetTime(row.datumSplatnosti)}</TableCell>
                                         <TableCell align="left">{GetTime(row.datumUzp)}</TableCell>
                                         <TableCell align="left">{row.cenaCelkem.toFixed(2)} Kč</TableCell>
-                                        <TableCell align="left"><CreateIcon cursor='pointer' onClick={() => this.editOdberatel(row.id)} />&nbsp;<DeleteIcon cursor='pointer' onClick={() => this.deleteOdberatel(row.id)}/></TableCell>
+                                        <TableCell align="left"><CreateIcon cursor='pointer' onClick={() => this.editFaktura(row.id)} />&nbsp;<DeleteIcon cursor='pointer' onClick={() => this.deleteOdberatel(row.id)}/></TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
