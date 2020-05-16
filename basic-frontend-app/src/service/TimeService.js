@@ -8,5 +8,5 @@ export function GetTime (time)
 
 export function SetTime (time)
 {
-    return moment(time).format('yyyy-MM-DD');
+    return moment(time).format('YYYY-MM-DD');
 };

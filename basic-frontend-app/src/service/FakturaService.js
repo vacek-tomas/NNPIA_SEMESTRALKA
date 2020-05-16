@@ -1,7 +1,7 @@
 import axios from 'axios';
 import AuthService from './AuthService';
 import config from '../infrastucture/config';
-import {FakturaController_delete, FakturaController_getById, FakturaController_listFaktura, FakturaController_save, FakturaController_update} from '../infrastucture/ApiRoutes';
+import {FakturaController_delete, FakturaController_getById, FakturaController_listFaktura, FakturaController_save, FakturaController_update, FakturaController_getByYear} from '../infrastucture/ApiRoutes';
 
 
 class FakturaServive {
@@ -12,6 +12,10 @@ class FakturaServive {
 
     fetchFakturaById(id) {
         return axios.get(config.API_BASE_URL + FakturaController_getById(id), AuthService.getAuthHeader());
+    }
+
+    fetchFakturyInfoByYear(year) {
+        return axios.get(config.API_BASE_URL + FakturaController_getByYear(year), AuthService.getAuthHeader());
     }
 
     deleteFaktura(id) {

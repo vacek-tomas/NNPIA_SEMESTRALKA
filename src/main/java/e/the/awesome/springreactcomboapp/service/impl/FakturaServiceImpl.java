@@ -124,7 +124,6 @@ public class FakturaServiceImpl implements FakturaService {
     @Override
     public FakturaPagingDto findAll(int pageNo, int pageSize, String sortBy, boolean sortAsc) {
         Pageable paging = PageRequest.of(pageNo, pageSize, sortAsc ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy);
-
         Page<Faktura> pagedResult = fakturaRepository.findAll(paging);
 
         if(pagedResult.hasContent()){
