@@ -6,10 +6,10 @@ import {FakturaController_delete, FakturaController_getById, FakturaController_l
 
 class FakturaServive {
 
-    fetchFaktury(pageNo = 0, pageSize = 10, sortAsc = true, sortBy ="evidencniCislo") {
-        return axios.get(config.API_BASE_URL + FakturaController_listFaktura(pageNo,pageSize, sortAsc, sortBy), AuthService.getAuthHeader());
+    fetchFaktury(pageNo = 0, pageSize = 10, sort=[{sortBy: "id", sortAsc: true}]) {
+        return axios.post(config.API_BASE_URL + FakturaController_listFaktura(pageNo,pageSize), sort, AuthService.getAuthHeader());
     }
-
+W
     fetchFakturaById(id) {
         return axios.get(config.API_BASE_URL + FakturaController_getById(id), AuthService.getAuthHeader());
     }

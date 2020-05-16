@@ -1,6 +1,7 @@
 package e.the.awesome.springreactcomboapp.controller;
 
 import e.the.awesome.springreactcomboapp.model.ApiResponse;
+import e.the.awesome.springreactcomboapp.model.SortingDto;
 import e.the.awesome.springreactcomboapp.model.User;
 import e.the.awesome.springreactcomboapp.model.UserDto;
 import e.the.awesome.springreactcomboapp.model.faktury.FakturaDto;
@@ -23,12 +24,11 @@ public class FakturaController {
         this.fakturaService = fakturaService;
     }
 
-    @GetMapping
+    @PostMapping
     public ApiResponse<FakturaPagingDto> listFaktura(@RequestParam(defaultValue = "0") int pageNo,
                                                   @RequestParam(defaultValue = "10") int pageSize,
-                                                  @RequestParam(defaultValue = "id") String sortBy,
-                                                  @RequestParam(defaultValue = "true") boolean sortAsc){
-        return new ApiResponse<>(HttpStatus.OK.value(), "Invoice list fetched successfully.",fakturaService.findAll(pageNo, pageSize, sortBy, sortAsc));
+                                                  @RequestBody List<SortingDto> sortingDtoList){
+        return new ApiResponse<>(HttpStatus.OK.value(), "Invoice list fetched successfully.",fakturaService.findAll(pageNo, pageSize, sortingDtoList));
     }
 
     @GetMapping("/{id}")
@@ -41,7 +41,7 @@ public class FakturaController {
         return new ApiResponse<>(HttpStatus.OK.value(), "Invoice info fetched successfully.",fakturaService.findByYear(year));
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public ApiResponse<FakturaDto> save(@RequestBody FakturaIM faktura){
         return new ApiResponse<>(HttpStatus.OK.value(), "Invoice saved successfully.",fakturaService.save(faktura));
     }

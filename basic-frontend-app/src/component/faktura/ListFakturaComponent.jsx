@@ -17,7 +17,7 @@ import FakturaService from "../../service/FakturaService";
 import {GetTime} from "../../service/TimeService";
 import {toast, ToastContainer} from "react-toastify";
 import Loader from "react-loader-spinner";
-import SortingSelect from "../infrastucture/SortingSelect";
+import SortingSelect from "../infrastucture/SortingComponent";
 import 'react-toastify/dist/ReactToastify.css';
 
 class ListFakturaComponent extends Component {
@@ -32,38 +32,36 @@ class ListFakturaComponent extends Component {
             isLoading: true,
             pageNo: 0,
             pageSize: 5,
-            sortAsc: true,
-            sortBy: 'id',
+            sort:[]
         }
     }
 
-    componentDidMount() {
-        const {pageNo, pageSize, sortAsc, sortBy} = this.state
-        this.fetchFakturaList(pageNo, pageSize, sortAsc, sortBy);
+    getSortFromSession = () => {
+        return JSON.parse(sessionStorage.getItem("faktury-sort"))
     }
 
-    fetchFakturaList = (pageNo, pageSize, sortAsc, sortBy) => {
-        FakturaService.fetchFaktury(pageNo, pageSize, sortAsc, sortBy)
+    componentDidMount() {
+        const {pageNo, pageSize } = this.state;
+        const sort = this.getSortFromSession();
+        if(sort !== null)
+        {
+        this.setState({sort: sort});
+        }
+        this.fetchFakturaList(pageNo, pageSize, sort);
+    }
+
+    fetchFakturaList = (pageNo, pageSize, sort) => {
+        FakturaService.fetchFaktury(pageNo, pageSize, sort)
             .then((res) => {
                 this.setState({fakturyPaging: res.data.result, isLoading: false})
             });
     }
 
-    deleteOdberatel = (id) => {
+    deleteFaktura = (id) => {
         FakturaService.deleteFaktura(id)
             .then(res => {
-                toast(res.data.message);
-                this.setState(prevState =>
-                    ({...prevState,
-                        fakturyPaging:
-                            {
-                                ...prevState.fakturyPaging,
-                                totalCount: prevState.fakturyPaging.totalCount - 1,
-                                faktury: this.state.odberatelePaging.odberatele.filter(odberatel => odberatel.id !== id)
-                            }
-                    })
-                );
-            })
+               toast(res.data.message);
+            }).then(() => {this.fetchFakturaList(this.state.pageNo, this.state.pageSize, this.state.sort)});
     }
 
     viewFaktura = (id) => {
@@ -79,51 +77,27 @@ class ListFakturaComponent extends Component {
     }
 
     changePage = (event, value) => {
-        const {pageSize, sortAsc, sortBy} = this.state
+        const {pageSize, sort} = this.state
         this.setState({pageNo: value - 1});
-        this.fetchFakturaList(value - 1, pageSize, sortAsc, sortBy);
+        this.fetchFakturaList(value - 1, pageSize, sort);
     }
 
-    changeSortBy = (event) => {
-        const {pageNo, pageSize, sortAsc} = this.state
-        this.setState({sortBy: event.target.value});
-        this.fetchFakturaList(pageNo, pageSize, sortAsc, event.target.value);
-    }
-    changeSortAsc = (event) => {
-        const {pageNo, pageSize, sortBy} = this.state
-        this.setState({sortAsc: event.target.value});
-        this.fetchFakturaList(pageNo, pageSize, event.target.value, sortBy);
+    changeSortBy = (sort) => {
+        const {pageNo, pageSize} = this.state
+        sessionStorage.setItem("faktury-sort", JSON.stringify(sort));
+        this.fetchFakturaList(pageNo, pageSize, sort);
     }
 
     render() {
-        const order = [
-            {
-                name: "Faktury",
-                value: this.state.sortBy,
-                handleChange: this.changeSortBy,
-                items:
-                    [
-                        {value: "id", text: "None"},
-                        {value: "evidencniCislo", text: "Ev. číslo"},
-                        {value: "variabilniSymbol", text: "Var. symbol"},
-                        {value: "odberatelFirma", text: "Odběratel"},
-                        {value: "datumVystaveni", text: "Datum vystavení"},
-                        {value: "datumSplatnosti", text: "Datum splatnosti"},
-                        {value: "datumUzp", text: "Datum UZP"},
-                        {value: "cenaCelkem", text: "Částka"}
-                    ]
-            },
-            {
-                name: "Vzestupně/Sestupně",
-                value: this.state.sortAsc,
-                handleChange: this.changeSortAsc,
-                items:
-                    [
-                        {value: "true", text: "Vzestupně"},
-                        {value: "false", text: "Sestupně"},
-                    ]
-            },
-
+        const values = [
+            {key: "id", text: "None"},
+            {key: "evidencniCislo", text: "Ev. číslo"},
+            {key: "variabilniSymbol", text: "Var. symbol"},
+            {key: "odberatelFirma", text: "Odběratel"},
+            {key: "datumVystaveni", text: "Datum vystavení"},
+            {key: "datumSplatnosti", text: "Datum splatnosti"},
+            {key: "datumUzp", text: "Datum UZP"},
+            {key: "cenaCelkem", text: "Částka"}
         ]
         return (
             <React.Fragment>
@@ -137,7 +111,7 @@ class ListFakturaComponent extends Component {
                     <Loader style={style} type="Grid" color="blue" visible={this.state.isLoading}/>
                     {!this.state.isLoading &&
                     <React.Fragment>
-                        <SortingSelect order={order}/>
+                        <SortingSelect defaultValue={values[0].key} label="Faktury" values={values} onSelect={this.changeSortBy} defaultSorting="faktury-sort" />
                         <Table>
                             <TableHead>
                                 <TableRow>
@@ -164,7 +138,7 @@ class ListFakturaComponent extends Component {
                                         <TableCell align="left">
                                             <VisibilityIcon cursor='pointer' onClick={() => this.viewFaktura(row.id)}/>&nbsp;
                                             <CreateIcon cursor='pointer' onClick={() => this.editFaktura(row.id)} />&nbsp;
-                                            <DeleteIcon cursor='pointer' onClick={() => this.deleteOdberatel(row.id)}/></TableCell>
+                                            <DeleteIcon cursor='pointer' onClick={() => this.deleteFaktura(row.id)}/></TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>

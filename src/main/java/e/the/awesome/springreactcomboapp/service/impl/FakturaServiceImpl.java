@@ -4,6 +4,7 @@ import ch.qos.logback.classic.jmx.MBeanUtil;
 import e.the.awesome.springreactcomboapp.dao.FakturaRepository;
 import e.the.awesome.springreactcomboapp.dao.OdberatelRepository;
 import e.the.awesome.springreactcomboapp.dao.PolozkaFakturyRepository;
+import e.the.awesome.springreactcomboapp.model.SortingDto;
 import e.the.awesome.springreactcomboapp.model.User;
 import e.the.awesome.springreactcomboapp.model.faktury.*;
 import e.the.awesome.springreactcomboapp.service.FakturaService;
@@ -122,8 +123,14 @@ public class FakturaServiceImpl implements FakturaService {
     }
 
     @Override
-    public FakturaPagingDto findAll(int pageNo, int pageSize, String sortBy, boolean sortAsc) {
-        Pageable paging = PageRequest.of(pageNo, pageSize, sortAsc ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy);
+    public FakturaPagingDto findAll(int pageNo, int pageSize, List<SortingDto> sortingDtoList) {
+        List<Sort.Order> sort = new ArrayList<>();
+
+        for (SortingDto sortingItem: sortingDtoList) {
+            sort.add(new Sort.Order(sortingItem.getSortAsc() ? Sort.Direction.ASC : Sort.Direction.DESC, sortingItem.getSortBy()));
+        }
+
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sort));
         Page<Faktura> pagedResult = fakturaRepository.findAll(paging);
 
         if(pagedResult.hasContent()){

@@ -1,5 +1,6 @@
 package e.the.awesome.springreactcomboapp.service;
 
+import e.the.awesome.springreactcomboapp.model.SortingDto;
 import e.the.awesome.springreactcomboapp.model.User;
 import e.the.awesome.springreactcomboapp.model.UserDto;
 import e.the.awesome.springreactcomboapp.model.faktury.*;
@@ -13,7 +14,7 @@ public interface FakturaService {
     void delete(int id);
     FakturaIM findById(int id);
     List<FakturaMonthInfo> findByYear(int year);
-    FakturaPagingDto findAll(int pageNo, int pageSize, String sortBy, boolean sortAsc);
+    FakturaPagingDto findAll(int pageNo, int pageSize, List<SortingDto> sortingDtoList);
 
 
 

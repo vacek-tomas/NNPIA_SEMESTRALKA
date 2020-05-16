@@ -51,6 +51,9 @@ class FakturaComponent extends Component{
             .then(() => {OdberatelService.fetchOdberatelById(this.state.odberatelId)
                 .then(res => this.setState({defaultOdberatel: {firma: res.data.result.firma + " " + res.data.result.mesto, id: this.state.odberatelId}, isLoading: false}))});
         }
+        else {
+            this.setState({isLoading: false});
+        }
     }
 
     onSubmit = (e) => {

@@ -15,7 +15,7 @@ import Pagination from "@material-ui/lab/Pagination";
 import OdberatelService from "../../service/OdberatelService";
 import {toast, ToastContainer} from "react-toastify";
 import Loader from "react-loader-spinner";
-import SortingSelect from "../infrastucture/SortingSelect";
+import SortingSelect from "../infrastucture/SortingComponent";
 import 'react-toastify/dist/ReactToastify.css';
 
 class ListOdberatelComponent extends Component {

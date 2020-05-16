@@ -1,9 +1,9 @@
 export const AuthenticationController_generateToken = `/token/generate-token`
 export const AuthenticationController_logout = `/token/logout`
-export const FakturaController_listFaktura = (pageNo, pageSize, sortAsc, sortBy) => `/invoices?pageNo=${pageNo}&pageSize=${pageSize}&sortAsc=${sortAsc}&sortBy=${sortBy}`
+export const FakturaController_listFaktura = (pageNo, pageSize, sort) => `/invoices?pageNo=${pageNo}&pageSize=${pageSize}`
 export const FakturaController_getById = (id) => `/invoices/${id}`
 export const FakturaController_getByYear = (year) => `/invoices/between/${year}`
-export const FakturaController_save =  `/invoices`
+export const FakturaController_save =  `/invoices/save`
 export const FakturaController_delete = (id) => `/invoices/${id}`
 export const FakturaController_update = (id) => `/invoices/${id}`
 export const OdberatelController_listOdberatel = (pageNo, pageSize, sortAsc, sortBy) => `/subscribers?pageNo=${pageNo}&pageSize=${pageSize}&sortAsc=${sortAsc}&sortBy=${sortBy}`
