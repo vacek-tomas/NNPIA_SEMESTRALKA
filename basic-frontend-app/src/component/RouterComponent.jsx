@@ -12,6 +12,7 @@ import AddOdberatelComponent from "./odberatele/AddOdberatelComponent";
 import EditOdberatelComponent from "./odberatele/EditOdberatelComponent";
 import AddFakturaComponent from "./faktura/AddFakturaComponent";
 import EditFakturaComponent from "./faktura/EditFakturaComponent";
+import ViewFakturaComponent from "./faktura/ViewFakturaComponent";
 
 const AppRouter = () => {
     return(
@@ -25,6 +26,7 @@ const AppRouter = () => {
                         <PrivateRoute path="/list-invoice" component={ListFakturaComponent} />
                         <PrivateRoute path="/add-invoice" component={AddFakturaComponent} />
                         <PrivateRoute path="/edit-invoice/:id" component={EditFakturaComponent} />
+                        <PrivateRoute path="/view-invoice/:id" component={ViewFakturaComponent} />
                         <PrivateRoute path="/list-subscriber" component={ListOdberatelComponent} />
                         <PrivateRoute path="/add-subscriber" component={AddOdberatelComponent} />
                         <PrivateRoute path="/edit-subscriber/:id" component={EditOdberatelComponent} />

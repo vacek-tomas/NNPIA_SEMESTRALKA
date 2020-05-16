@@ -10,6 +10,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import CreateIcon from "@material-ui/icons/Create";
 import DeleteIcon from "@material-ui/icons/Delete";
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import Button from "@material-ui/core/Button";
 import Pagination from "@material-ui/lab/Pagination";
 import FakturaService from "../../service/FakturaService";
@@ -63,6 +64,10 @@ class ListFakturaComponent extends Component {
                     })
                 );
             })
+    }
+
+    viewFaktura = (id) => {
+        this.props.history.push('/view-invoice/' + id);
     }
 
     editFaktura = (id) => {
@@ -156,7 +161,10 @@ class ListFakturaComponent extends Component {
                                         <TableCell align="left">{GetTime(row.datumSplatnosti)}</TableCell>
                                         <TableCell align="left">{GetTime(row.datumUzp)}</TableCell>
                                         <TableCell align="left">{row.cenaCelkem.toFixed(2)} Kč</TableCell>
-                                        <TableCell align="left"><CreateIcon cursor='pointer' onClick={() => this.editFaktura(row.id)} />&nbsp;<DeleteIcon cursor='pointer' onClick={() => this.deleteOdberatel(row.id)}/></TableCell>
+                                        <TableCell align="left">
+                                            <VisibilityIcon cursor='pointer' onClick={() => this.viewFaktura(row.id)}/>&nbsp;
+                                            <CreateIcon cursor='pointer' onClick={() => this.editFaktura(row.id)} />&nbsp;
+                                            <DeleteIcon cursor='pointer' onClick={() => this.deleteOdberatel(row.id)}/></TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
