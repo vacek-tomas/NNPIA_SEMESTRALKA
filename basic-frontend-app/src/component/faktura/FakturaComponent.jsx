@@ -14,6 +14,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import {SetTime} from "../../service/TimeService";
 import {PolozkaFakturyComponent} from "./PolozkaFakturyComponent";
 import PropTypes from 'prop-types';
+import Joi from "joi";
 
 
 class FakturaComponent extends Component{
@@ -40,10 +41,18 @@ class FakturaComponent extends Component{
                 firma: '',
                 id: undefined
             },
-            isLoading: true
+            isLoading: true,
+            errors: {}
         }
     }
 
+    schema = {
+        evidencniCislo: Joi.string().required().error(() => { return { message: 'Evidenční číslo je vyžadováno' }}),
+        datumVystaveni: Joi.date().required().error(() => { return { message: 'Datum vystavení je vyžadován' }}),
+        datumUzp: Joi.date().required().error(() => { return { message: 'Datum UZP je vyžadován' }}),
+        datumSplatnosti: Joi.date().required().error(() => { return { message: 'Datum splatnosti je vyžadován' }}),
+        odberatelId: Joi.number().required().error(() => { return { message: 'Odběratel je vyžadován' }})
+    }
     componentDidMount() {
         if(this.props.mode !== "Create") {
             FakturaService.fetchFakturaById(this.props.match.params.id)
@@ -56,12 +65,42 @@ class FakturaComponent extends Component{
         }
     }
 
+    validate = () => {
+        const result = Joi.validate(this.state, this.schema, {abortEarly: false, allowUnknown: true });
+
+        if(!result.error) return null;
+
+        const errors = {};
+        for(let item of result.error.details)
+            errors[item.path[0]] = item.message;
+        return errors;
+    }
+
+    validateProperty = (name, value) => {
+        const obj = {[name]: value};
+        const schema = {[name]: this.schema[name]};
+        const {error} = Joi.validate(obj, schema, {abortEarly: false});
+        return error ? error.details[0].message : null;
+    }
+
+
     onSubmit = (e) => {
         e.preventDefault();
+        const errors = this.validate();
+        this.setState(({errors: errors || {}}));
+        if (errors) return;
+
         this.props.onSubmit(e, this.state)
     }
 
-    onChange = (e) => this.setState({ [e.target.name]: e.target.value });
+    onChange = (e) => {
+        const errors = {...this.state.errors};
+        const errorMessage = this.validateProperty(e.target.name, e.target.value);
+        if(errorMessage) errors[e.target.name] = errorMessage;
+        else delete errors[e.target.name];
+
+        this.setState({ [e.target.name]: e.target.value, errors: errors });
+    }
 
     onChangeItem = (e, index) => {
 
@@ -86,8 +125,14 @@ class FakturaComponent extends Component{
         })
     }
 
-    onSelectAutocomplete = (id) => {
-        this.setState({odberatelId: id});
+    onSelectAutocomplete = (reason) => {
+        const id = reason === null ? undefined : reason.id;
+        const errors = {...this.state.errors};
+        const errorMessage = this.validateProperty('odberatelId', id);
+        if(errorMessage) errors['odberatelId'] = errorMessage;
+        else delete errors['odberatelId'];
+
+        this.setState({odberatelId: id, errors: errors});
     }
 
     deleteRow = (index)  => {
@@ -122,15 +167,15 @@ class FakturaComponent extends Component{
                     <Typography variant="h4" style={style}>{this.renderTitle()}</Typography>
                     <form style={formContainer}>
 
-                        <TextField label="EVIDENČNÍ ČÍSLO" type="text" fullWidth margin="normal" name="evidencniCislo" value={this.state.evidencniCislo} onChange={this.onChange} disabled={this.isViewMode()}/>
+                        <TextField error={this.state.errors.evidencniCislo !== undefined} helperText={this.state.errors.evidencniCislo} label="EVIDENČNÍ ČÍSLO" type="text" fullWidth margin="normal" name="evidencniCislo" value={this.state.evidencniCislo} onChange={this.onChange} disabled={this.isViewMode()}/>
 
                         <TextField label="VARIABILNÍ SYMBOL" type="text" fullWidth margin="normal" name="variabilniSymbol" value={this.state.variabilniSymbol} onChange={this.onChange} disabled={this.isViewMode()}/>
                         {this.renderAutoComplete()}
-                        <TextField label="DATUM VYSTAVENÍ" type="date" fullWidth margin="normal" name="datumVystaveni" value={this.state.datumVystaveni}  onChange={this.onChange} InputLabelProps={{shrink: true}} disabled={this.isViewMode()}/>
+                        <TextField error={this.state.errors.datumVystaveni !== undefined} helperText={this.state.errors.datumVystaveni} label="DATUM VYSTAVENÍ" type="date" fullWidth margin="normal" name="datumVystaveni" value={this.state.datumVystaveni}  onChange={this.onChange} InputLabelProps={{shrink: true}} disabled={this.isViewMode()}/>
 
-                        <TextField label="DATUM UZP" type="date" fullWidth margin="normal" name="datumUzp" value={this.state.datumUzp} onChange={this.onChange} InputLabelProps={{shrink: true}} disabled={this.isViewMode()}/>
+                        <TextField error={this.state.errors.datumUzp !== undefined} helperText={this.state.errors.datumUzp} label="DATUM UZP" type="date" fullWidth margin="normal" name="datumUzp" value={this.state.datumUzp} onChange={this.onChange} InputLabelProps={{shrink: true}} disabled={this.isViewMode()}/>
 
-                        <TextField label="DATUM SPLATNOSTI" type="date" fullWidth margin="normal" name="datumSplatnosti" value={this.state.datumSplatnosti} onChange={this.onChange} InputLabelProps={{shrink: true}} disabled={this.isViewMode()}/>
+                        <TextField error={this.state.errors.datumSplatnosti !== undefined} helperText={this.state.errors.datumSplatnosti} label="DATUM SPLATNOSTI" type="date" fullWidth margin="normal" name="datumSplatnosti" value={this.state.datumSplatnosti} onChange={this.onChange} InputLabelProps={{shrink: true}} disabled={this.isViewMode()}/>
                         {this.state.polozkyFaktury.map((row, index) => (
                             <PolozkaFakturyComponent key={"item-"+index} item={row} index={index} onChangeItem = {this.onChangeItem} deleteRow = {this.deleteRow} disabled={this.isViewMode()}/>
                         ))}
@@ -176,12 +221,12 @@ class FakturaComponent extends Component{
                       size="medium"
                       options={this.state.odberatele}
                       getOptionLabel={(option) => option.firma}
-                      onChange={(event, reason) => {this.onSelectAutocomplete(reason.id)}}
+                      onChange={(event, reason) => {this.onSelectAutocomplete(reason)}}
                       onInputChange={(event, newInputValue) => {
                           this.onInputChangeAutocomplete(newInputValue);
                       }}
                       renderInput={(params) => (
-                          <TextField {...params} variant="standard" label="ODBĚRATEL" placeholder="Odběratel" InputLabelProps={{shrink: true}} />
+                          <TextField {...params} error={this.state.errors.odberatelId !== undefined} helperText={this.state.errors.odberatelId} variant="standard" label="ODBĚRATEL" placeholder="Odběratel" InputLabelProps={{shrink: true}} />
                       )}
         />)
         else
