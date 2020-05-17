@@ -77,10 +77,10 @@ class SortingComponent extends Component{
                 </Select>
             </FormControl>
             &nbsp;
-            <Grid container item sm={1} alignContent={"flex-end"}>
+            {this.props.multiple && <Grid container item sm={1} alignContent={"flex-end"}>
             {this.state.sorts.length > 1 &&<DeleteIcon cursor='pointer' onClick={() => this.handleDelete(index)} />}
             {index + 1 == this.state.sorts.length && this.props.values.length > this.state.sorts.length && <AddIcon cursor='pointer' onClick={this.handleAdd}/>}
-            </Grid>
+            </Grid>}
         </Grid>))}
     </Fragment>
     )

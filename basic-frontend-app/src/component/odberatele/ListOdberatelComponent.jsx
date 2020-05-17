@@ -78,46 +78,23 @@ class ListOdberatelComponent extends Component {
         this.fetchOdberatelList(value - 1, pageSize, sortAsc, sortBy);
     }
 
-    changeSortBy = (event) => {
-        const {pageNo, pageSize, sortAsc} = this.state
-        this.setState({sortBy: event.target.value});
-        this.fetchOdberatelList(pageNo, pageSize, sortAsc, event.target.value);
-    }
-    changeSortAsc = (event) => {
-        const {pageNo, pageSize, sortBy} = this.state
-        this.setState({sortAsc: event.target.value});
-        this.fetchOdberatelList(pageNo, pageSize, event.target.value, sortBy);
+    changeSortBy = (sort) => {
+        const {pageNo, pageSize} = this.state;
+        this.setState({sortBy: sort[0].sortBy, sortAsc: sort[0].sortAsc});
+        this.fetchOdberatelList(pageNo, pageSize, sort[0].sortAsc, sort[0].sortBy);
     }
 
     render() {
-        const order = [
-            {
-            name: "Odběratel",
-            value: this.state.sortBy,
-            handleChange: this.changeSortBy,
-            items:
-                [
-                    {value: "id", text: "None"},
-                    {value: "firma", text: "Firma"},
-                    {value: "ic", text: "IČO"},
-                    {value: "psc", text: "PSČ"},
-                    {value: "mesto", text: "Město"},
-                    {value: "ulice", text: "Ulice"},
-                    {value: "cisloPopisne", text: "Číslo Popisné"}
-                ]
-            },
-            {
-                name: "Vzestupně/Sestupně",
-                value: this.state.sortAsc,
-                handleChange: this.changeSortAsc,
-                items:
-                    [
-                        {value: "true", text: "Vzestupně"},
-                        {value: "false", text: "Sestupně"},
-                    ]
-            },
-
+        const values = [
+            {key: "id", text: "None"},
+            {key: "firma", text: "Firma"},
+            {key: "ic", text: "IČO"},
+            {key: "psc", text: "PSČ"},
+            {key: "mesto", text: "Město"},
+            {key: "ulice", text: "Ulice"},
+            {key: "cisloPopisne", text: "Číslo Popisné"}
         ]
+
         return (
             <React.Fragment>
                 <ToastContainer/>
@@ -130,7 +107,7 @@ class ListOdberatelComponent extends Component {
                     <Loader style={style} type="Grid" color="blue" visible={this.state.isLoading}/>
                     {!this.state.isLoading &&
                     <React.Fragment>
-                        <SortingSelect order={order}/>
+                        <SortingSelect multiple={false} defaultValue={values[0].key} label="Odběratel" values={values} onSelect={this.changeSortBy} defaultSorting="odberatele-sort"/>
                         <Table>
                         <TableHead>
                             <TableRow>

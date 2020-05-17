@@ -111,7 +111,7 @@ class ListFakturaComponent extends Component {
                     <Loader style={style} type="Grid" color="blue" visible={this.state.isLoading}/>
                     {!this.state.isLoading &&
                     <React.Fragment>
-                        <SortingSelect defaultValue={values[0].key} label="Faktury" values={values} onSelect={this.changeSortBy} defaultSorting="faktury-sort" />
+                        <SortingSelect multiple={true} defaultValue={values[0].key} label="Faktury" values={values} onSelect={this.changeSortBy} defaultSorting="faktury-sort" />
                         <Table>
                             <TableHead>
                                 <TableRow>

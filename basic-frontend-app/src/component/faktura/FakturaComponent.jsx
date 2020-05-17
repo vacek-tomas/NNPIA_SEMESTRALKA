@@ -79,6 +79,8 @@ class FakturaComponent extends Component{
     validateProperty = (name, value) => {
         const obj = {[name]: value};
         const schema = {[name]: this.schema[name]};
+        if(schema[name] === undefined)
+            return null;
         const {error} = Joi.validate(obj, schema, {abortEarly: false});
         return error ? error.details[0].message : null;
     }
