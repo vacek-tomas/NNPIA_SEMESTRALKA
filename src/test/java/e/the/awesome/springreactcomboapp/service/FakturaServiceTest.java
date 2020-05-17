@@ -3,8 +3,7 @@ package e.the.awesome.springreactcomboapp.service;
 
 import e.the.awesome.springreactcomboapp.SpringReactComboAppApplication;
 import e.the.awesome.springreactcomboapp.dao.FakturaRepository;
-import e.the.awesome.springreactcomboapp.model.faktury.Faktura;
-import e.the.awesome.springreactcomboapp.model.faktury.FakturaMonthInfo;
+import e.the.awesome.springreactcomboapp.model.faktury.*;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -56,4 +54,37 @@ public class FakturaServiceTest {
        assertEquals(list.get(0).getTotal(), 100000.0);
     }
 
+    @Test
+    void findByIdTest() {
+        Faktura mockFaktura = new Faktura();
+        mockFaktura.setEvidencniCislo("120");
+        mockFaktura.setVariabilniSymbol(120);
+        mockFaktura.setDatumVystaveni(LocalDate.of(2020, 1, 1));
+        mockFaktura.setDatumSplatnosti(LocalDate.of(2020, 1, 15));
+        mockFaktura.setDatumUzp(LocalDate.of(2020, 1, 15));
+
+        Odberatel odberatel = new Odberatel();
+        odberatel.setId(1);
+        odberatel.setFirma("Firma");
+        odberatel.setMesto("Pardubice");
+
+        mockFaktura.setOdberatel(odberatel);
+
+        Set<PolozkaFaktury> polozkyFaktury = new HashSet<>();
+        PolozkaFaktury polozkaFaktury = new PolozkaFaktury();
+        polozkaFaktury.setPopis("práce");
+        polozkaFaktury.setCenaCelkem(20000);
+        polozkyFaktury.add(polozkaFaktury);
+
+        mockFaktura.setPolozkyFaktury(polozkyFaktury);
+        mockFaktura.setCenaCelkem(20000);
+
+        when(fakturaRepository.findById(1)).thenReturn(Optional.of(mockFaktura));
+
+        FakturaIM fakturaIM = fakturaService.findById(1);
+
+        assertEquals(fakturaIM.getEvidencniCislo(), mockFaktura.getEvidencniCislo());
+        assertEquals(fakturaIM.getOdberatelId(), mockFaktura.getOdberatel().getId());
+        assertEquals(fakturaIM.getPolozkyFaktury().stream().mapToDouble(i -> i.getCenaCelkem()).sum(), mockFaktura.getCenaCelkem());
+    }
 }
