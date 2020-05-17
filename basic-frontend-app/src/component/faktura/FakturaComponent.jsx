@@ -7,11 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import NavBar from "../Navbar";
 import {Helmet} from "react-helmet";
-import {toast} from "react-toastify";
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import Grid from '@material-ui/core/Grid';
-import DeleteIcon from "@material-ui/icons/Delete";
-import {SetTime} from "../../service/TimeService";
 import {PolozkaFakturyComponent} from "./PolozkaFakturyComponent";
 import PropTypes from 'prop-types';
 import Joi from "joi";
@@ -238,12 +234,12 @@ class FakturaComponent extends Component{
                           options={this.state.odberatele}
                           defaultValue={this.state.defaultOdberatel}
                           getOptionLabel={(option) => option.firma}
-                          onChange={(event, reason) => {this.onSelectAutocomplete(reason.id)}}
+                          onChange={(event, reason) => {this.onSelectAutocomplete(reason)}}
                           onInputChange={(event, newInputValue) => {
                               this.onInputChangeAutocomplete(newInputValue);
                           }}
                           renderInput={(params) => (
-                              <TextField {...params} variant="standard" label="ODBĚRATEL" placeholder="Odběratel" InputLabelProps={{shrink: true}} />
+                              <TextField {...params} error={this.state.errors.odberatelId !== undefined} helperText={this.state.errors.odberatelId} variant="standard" label="ODBĚRATEL" placeholder="Odběratel" InputLabelProps={{shrink: true}} />
                           )}
                           disabled={this.isViewMode()}
             />)
