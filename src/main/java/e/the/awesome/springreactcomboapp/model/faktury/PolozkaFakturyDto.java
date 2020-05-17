@@ -35,6 +35,10 @@ public class PolozkaFakturyDto {
         this.cenaCelkem = cenaCelkem;
     }
 
+    public PolozkaFakturyDto() {
+
+    }
+
     public String getPopis() {
         return popis;
     }

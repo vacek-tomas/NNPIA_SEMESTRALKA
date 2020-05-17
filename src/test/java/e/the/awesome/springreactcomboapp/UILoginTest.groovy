@@ -19,23 +19,23 @@ class UILoginTest {
   @Test
   void loginTest() {
 
-    System.setProperty("webdriver.gecko.driver", "D:\\geckodriver.exe")
+    System.setProperty("webdriver.gecko.driver", "src\\test\\resources\\geckodriver.exe")
 
 
     Browser.drive {
-      go 'http://localhost:8080/'
-      assert title == "Login | UPCE"
+      go 'http://localhost:3000/login'
+      assert title == "Přihlášení"
 
-      // a) typing text into input using GEB jQuery-like API
+
       $("input[name='username']").value("devglan")
 
-      // a) typing text into input using core WebDriver API
+
       driver.findElement(By.name("password")).sendKeys("devglan")
 
-      driver.findElement(By.xpath("//button[*[contains(text(),'Login')]]")).click()
+      driver.findElement(By.xpath("//button[*[contains(text(),'Přihlásit')]]")).click()
 
       WebDriverWait wait = new WebDriverWait(driver, 10);
-      wait.until(ExpectedConditions.titleIs("List user | UPCE"))
+      wait.until(ExpectedConditions.titleIs("Přehled"))
 
     }
   }

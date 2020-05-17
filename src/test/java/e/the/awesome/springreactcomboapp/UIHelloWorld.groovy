@@ -10,7 +10,7 @@ class UIHelloWorld {
 
   @Test
   void testUpce() {
-    System.setProperty("webdriver.gecko.driver", "D:\\geckodriver.exe")
+    System.setProperty("webdriver.gecko.driver", "src\\test\\resources\\geckodriver.exe")
 
     Browser.drive {
       go 'https://www.upce.cz'

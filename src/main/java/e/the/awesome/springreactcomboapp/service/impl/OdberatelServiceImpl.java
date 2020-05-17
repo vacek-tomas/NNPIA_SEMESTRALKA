@@ -97,4 +97,14 @@ public class OdberatelServiceImpl implements OdberatelService {
     public List<OdberatelVM> findByFirmaStartsWith(String firma) {
         return odberatelRepository.findByFirmaStartsWithIgnoreCase(firma).stream().map(i -> new OdberatelVM(i.getId(), i.getFirma() + " " + i.getMesto())).collect(Collectors.toList());
     }
+
+    @Override
+    public Odberatel findOdberatelById(int id) throws NullPointerException {
+        Optional<Odberatel> optionalOdberatel = odberatelRepository.findById(id);
+        if(!optionalOdberatel.isPresent()){
+            throw new NullPointerException("Subscriber not exist.");
+        }
+
+        return optionalOdberatel.get();
+    }
 }

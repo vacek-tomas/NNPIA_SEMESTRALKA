@@ -12,5 +12,6 @@ public interface OdberatelService {
     OdberatelIM findById(int id) throws NullPointerException;
     OdberatelPagingDto findAll(int pageNo, int pageSize, String sortBy, boolean sortAsc);
     List<OdberatelVM> findByFirmaStartsWith(String firma);
+    Odberatel findOdberatelById(int id) throws NullPointerException;
 
 }

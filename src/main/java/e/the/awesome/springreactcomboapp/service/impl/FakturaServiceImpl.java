@@ -8,6 +8,7 @@ import e.the.awesome.springreactcomboapp.model.SortingDto;
 import e.the.awesome.springreactcomboapp.model.User;
 import e.the.awesome.springreactcomboapp.model.faktury.*;
 import e.the.awesome.springreactcomboapp.service.FakturaService;
+import e.the.awesome.springreactcomboapp.service.OdberatelService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,7 +29,8 @@ public class FakturaServiceImpl implements FakturaService {
     FakturaRepository fakturaRepository;
 
     @Autowired
-    OdberatelRepository odberatelRepository;
+    OdberatelService odberatelService;
+
 
     @Autowired
     PolozkaFakturyRepository polozkaFakturyRepository;
@@ -37,8 +39,8 @@ public class FakturaServiceImpl implements FakturaService {
     public FakturaDto save(FakturaIM fakturaIM) {
 
         Faktura faktura = new Faktura();
-        BeanUtils.copyProperties(fakturaIM, faktura);
-        faktura.setOdberatel(odberatelRepository.findById(fakturaIM.getOdberatelId()).get());
+        BeanUtils.copyProperties(fakturaIM, faktura, "id");
+        faktura.setOdberatel(odberatelService.findOdberatelById(fakturaIM.getOdberatelId()));
         faktura.setCenaCelkem(fakturaIM.getPolozkyFaktury().stream().map(i -> i.getCenaCelkem()).reduce(0.0, Double::sum));
         Faktura finalFaktura = faktura;
         faktura.setPolozkyFaktury(fakturaIM.getPolozkyFaktury().stream().map(i -> new PolozkaFaktury(i.getId(), i.getPopis(), i.getCenaZaJednotku(), i.getJednotka(), i.getMnozstvi(),i.getCenaCelkem(), finalFaktura)).collect(Collectors.toSet()));
@@ -58,7 +60,7 @@ public class FakturaServiceImpl implements FakturaService {
 
             if(faktura.get().getOdberatel().getId() != fakturaIM.getOdberatelId())
             {
-                faktura.get().setOdberatel(odberatelRepository.findById(fakturaIM.getOdberatelId()).get());
+                faktura.get().setOdberatel(odberatelService.findOdberatelById(fakturaIM.getOdberatelId()));
             }
             faktura.get().setCenaCelkem(fakturaIM.getPolozkyFaktury().stream().map(i -> i.getCenaCelkem()).reduce(0.0, Double::sum));
             fakturaRepository.save(faktura.get());

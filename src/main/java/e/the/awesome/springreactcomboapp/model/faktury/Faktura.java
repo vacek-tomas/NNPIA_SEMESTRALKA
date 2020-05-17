@@ -10,7 +10,7 @@ public class Faktura {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(length = 30, nullable = false)
     private String evidencniCislo;
@@ -27,7 +27,7 @@ public class Faktura {
     @Column(nullable = false)
     private LocalDate datumSplatnosti;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     private Odberatel odberatel;
 
     @OneToMany(mappedBy="faktura", cascade = CascadeType.REMOVE)
@@ -100,11 +100,11 @@ public class Faktura {
         this.evidencniCislo = evidencniCislo;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 }

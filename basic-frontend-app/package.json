@@ -32,8 +32,5 @@
       "target": "http://localhost:8080",
       "ws": true
     }
-  },
-  "devDependencies": {
-    "@material-ui/pickers": "^3.2.10"
   }
 }
