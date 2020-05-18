@@ -1,4 +1,4 @@
-package e.the.awesome.springreactcomboapp
+package e.the.awesome.springreactcomboapp.UITesting
 
 import geb.Browser
 import org.junit.jupiter.api.Test

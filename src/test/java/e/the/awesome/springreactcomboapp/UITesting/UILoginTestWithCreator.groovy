@@ -1,5 +1,6 @@
-package e.the.awesome.springreactcomboapp
+package e.the.awesome.springreactcomboapp.UITesting
 
+import e.the.awesome.springreactcomboapp.Creator
 import e.the.awesome.springreactcomboapp.model.User
 import geb.Browser
 import org.junit.jupiter.api.Test
@@ -23,11 +24,11 @@ class UILoginTestWithCreator {
 
     System.setProperty("webdriver.gecko.driver", "D:\\geckodriver.exe")
 
-    creator.saveEntity(new User(age: 10,firstName: "Marek"));
+    creator.saveEntity(new User(age: 23,firstName: "Tomáš"));
 
     Browser.drive {
-      go 'http://localhost:8080/'
-      assert title == "Login | UPCE"
+      go 'http://localhost:3000/list-user'
+      assert title == "Přihlášení"
 
       // a) typing text into input using GEB jQuery-like API
       $("input[name='username']").value("devglan")
@@ -35,13 +36,13 @@ class UILoginTestWithCreator {
       // a) typing text into input using core WebDriver API
       driver.findElement(By.name("password")).sendKeys("devglan")
 
-      driver.findElement(By.xpath("//button[*[contains(text(),'Login')]]")).click()
+      driver.findElement(By.xpath("//button[*[contains(text(),'Přihlásit')]]")).click()
 
       WebDriverWait wait = new WebDriverWait(driver, 10);
-      wait.until(ExpectedConditions.titleIs("List user | UPCE"))
+      wait.until(ExpectedConditions.titleIs("Seznam uživatelů"))
 
-      wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h4[text()='User Details']")))
-      wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td[text()='Marek']")))
+      wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h4[text()='Seznam uživatelů']")))
+      wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td[text()='Tomáš']")))
     }
   }
 

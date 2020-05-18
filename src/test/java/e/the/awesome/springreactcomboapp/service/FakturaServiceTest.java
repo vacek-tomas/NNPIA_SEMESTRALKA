@@ -48,7 +48,8 @@ public class FakturaServiceTest {
         mockList.add(faktura2);
         mockList.add(faktura3);
 
-        when(fakturaRepository.findByDatumUzpBetween(LocalDate.of(2020,1,1), LocalDate.of(2020,12,31))).thenReturn(mockList);
+        when(fakturaRepository.findByDatumUzpBetween(LocalDate.of(2020,1,1), LocalDate.of(2020,12,31)))
+                .thenReturn(mockList);
         List<FakturaMonthInfo> list = fakturaService.findByYear(2020);
 
        assertEquals(list.get(0).getTotal(), 100000.0);

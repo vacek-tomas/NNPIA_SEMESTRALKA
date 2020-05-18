@@ -1,21 +1,18 @@
-# Spring Boot-React-Starter
+# Backend Účetní aplikace
 
-Basic Spring Boot + React application with JWT support. 
-Includes login page and  user CRUD. As database, H2 is used.
- If you want to use another database (such as MySQL) then change dependencies in pom.xml.
- 
-The application is also ready for Heroku deployment -- procfile included.
+Jednoduchá účetní aplikace pro strávu faktur a zákazníků. 
+Využítí Spring boot + H2 db + JWT autorizace + Selenium Tests.
 
-# Setup is pretty simple.
-- Clone the repository
+
+# Spuštění backendu
+- Clone this repository
 - mvn clean install and mvn spring-boot:run
     - this will install all the dependencies you need
 
 
-## Frontend development
-- cd basic-frontend-app
-- npm install 
-- npm start
+## Frontend 
+- využití React.js + Material UI
+- GitHub repository: https://github.com/vacek69/NNPIA_SEMESTRALKA_FE
 
-
-Based on: https://www.devglan.com/react-js/spring-boot-reactjs-crud-example and https://medium.com/analytics-vidhya/how-to-package-your-react-app-with-spring-boot-41432be974bc
+- backend: https://nnpia-vacek.herokuapp.com/ 
+- frontend: https://nnpia-semestralka-fe-mw3eu673z.now.sh/login
